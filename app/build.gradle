@@ -33,12 +33,11 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures {
-        dataBinding true
-    }
+
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def dagger2_version = "2.24"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -71,4 +70,5 @@ dependencies {
     implementation 'org.mockito:mockito-core:3.0.0'
     implementation 'org.mockito:mockito-inline:3.0.0'
     testImplementation 'android.arch.core:core-testing:1.1.1'
+
 }

@@ -2,11 +2,12 @@ package com.example.androidtask.network.repository
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidtask.MyRetroApplication
 import com.example.androidtask.network.di.APIComponent
-import com.example.androidtask.network.model.PostInfo
+import com.example.androidtask.network.model.FilesListResponse
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 class RetrofitRepository {
     lateinit var apiComponent: APIComponent
-    var postInfoMutableList: MutableLiveData<List<PostInfo>> = MutableLiveData()
+    var postInfoMutableList: MutableLiveData<FilesListResponse> = MutableLiveData()
     @Inject
     lateinit var retrofit: Retrofit
     init {
@@ -31,20 +32,26 @@ class RetrofitRepository {
     }
 
 
-    fun fetchPostInfoList(): LiveData<List<PostInfo>> {
+    fun fetchPostInfoList(): LiveData<FilesListResponse> {
 
          var apiService:APIService = retrofit.create(APIService::class.java)
-         var postListInfo : Call<List<PostInfo>> =  apiService.makeRequest()
-        postListInfo.enqueue(object :Callback<List<PostInfo>>{
-            override fun onFailure(call: Call<List<PostInfo>>, t: Throwable) {
-             Log.d("RetroRepository","Failed:::"+t.message)
-            }
-
-            override fun onResponse(call: Call<List<PostInfo>>, response: Response<List<PostInfo>>) {
+         var postListInfo : Call<FilesListResponse> =  apiService.makeRequest()
+        postListInfo.enqueue(object :Callback<FilesListResponse>{
+            override fun onResponse(
+                call: Call<FilesListResponse>,
+                response: Response<FilesListResponse>
+            ) {
                 var postInfoList = response.body()
                 postInfoMutableList.value = postInfoList
 
+
             }
+
+            override fun onFailure(call: Call<FilesListResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+                Log.d("RetroRepository","Failed:::"+t.message)
+            }
+
         })
 
          return  postInfoMutableList

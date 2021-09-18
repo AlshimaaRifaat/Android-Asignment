@@ -3,43 +3,70 @@ package com.example.androidtask.network.view
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.widget.TextView
+
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidtask.BR
+
 import com.example.androidtask.R
-import com.example.androidtask.databinding.PostListItemBinding
-import com.example.androidtask.network.model.PostInfo
+
+import com.example.androidtask.network.model.FilesListResponseItem
+
 import java.util.Collections.emptyList
 
 
-class PostListAdapter(var context: Context) : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
-    private  var list: List<PostInfo> = emptyList<PostInfo>()
+class PostListAdapter(var context: Context, itemClickInterface :ItemClickInterface):
+    RecyclerView.Adapter<PostListAdapter.MainViewHolder>() {
+    private  val TAG = "PostListAdapter"
+    lateinit var itemClickInterface :ItemClickInterface
+    private  var list: List<FilesListResponseItem> = emptyList<FilesListResponseItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        val binding: PostListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.post_list_item, parent, false)
-        return PostListAdapter.ViewHolder(binding)
+    init {
+        this.itemClickInterface = itemClickInterface
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("ADapter","Info:::"+list.get(position).body)
-        holder.bind(list.get(position))
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.post_list_item, parent, false)
+        return MainViewHolder(
+            view
+        )
     }
 
-    fun setAdapterList(list: List<PostInfo> ){
-     this.list = list
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        holder.bindItems(list.get(position))
+
+        holder.itemView.setOnClickListener {
+            Log.d(TAG, "onBindViewHolder: "+"item clicked")
+            itemClickInterface.downloadFile(list.get(position))
+        }
+
+
+    }
+
+    fun setAdapterList(list: List<FilesListResponseItem> ){
+        this.list = list
         notifyDataSetChanged()
     }
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int {
 
-    class ViewHolder(val binding: PostListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Any) {
-            binding.setVariable(BR.postmodel, data) //BR - generated class; BR.user - 'user' is variable name declared in layout
-            binding.executePendingBindings()
+        return list!!.size
+    }
+
+    class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(filesListResponseItem: FilesListResponseItem) {
+            val tFileName  = itemView.findViewById(R.id.tFileName) as TextView
+
+            tFileName.text =filesListResponseItem.name
+
+
         }
     }
+
+
+    interface ItemClickInterface {
+        fun downloadFile(filesListResponseItem: FilesListResponseItem)
+    }
 }
-
-
-//https://yamikrish.blogspot.com/2018/12/databinding-in-recyclerview-android.html
