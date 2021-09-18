@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
@@ -16,16 +17,22 @@ import com.example.androidtask.network.model.FilesListResponseItem
 import java.util.Collections.emptyList
 
 
-class PostListAdapter(var context: Context, itemClickInterface :ItemClickInterface):
+class PostListAdapter(var context: Context, itemClickInterface:ItemClickInterface):
     RecyclerView.Adapter<PostListAdapter.MainViewHolder>() {
     private  val TAG = "PostListAdapter"
     lateinit var itemClickInterface :ItemClickInterface
+
     private  var list: List<FilesListResponseItem> = emptyList<FilesListResponseItem>()
 
     init {
         this.itemClickInterface = itemClickInterface
-    }
 
+
+    }
+     fun setChecked(position:Int){
+         list.get(position).isChecked=true
+         notifyItemChanged(position)
+     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -40,9 +47,17 @@ class PostListAdapter(var context: Context, itemClickInterface :ItemClickInterfa
 
         holder.itemView.setOnClickListener {
             Log.d(TAG, "onBindViewHolder: "+"item clicked")
-            itemClickInterface.downloadFile(list.get(position))
+
+            itemClickInterface.downloadFile(list.get(position),position)
         }
 
+        if(list.get(position).isChecked){
+            Log.d(TAG, "onBindViewHolder: "+"completed")
+            holder.imgCheckMark.visibility=View.VISIBLE
+
+        }else{
+            holder.imgCheckMark.visibility=View.GONE
+        }
 
     }
 
@@ -56,17 +71,21 @@ class PostListAdapter(var context: Context, itemClickInterface :ItemClickInterfa
     }
 
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        lateinit var tFileName :TextView;
+        lateinit var imgCheckMark :ImageView;
         fun bindItems(filesListResponseItem: FilesListResponseItem) {
-            val tFileName  = itemView.findViewById(R.id.tFileName) as TextView
-
+             tFileName  = itemView.findViewById(R.id.tFileName)
+             imgCheckMark  = itemView.findViewById(R.id.imgCheckMark)
             tFileName.text =filesListResponseItem.name
 
-
         }
+
+
+
     }
 
 
     interface ItemClickInterface {
-        fun downloadFile(filesListResponseItem: FilesListResponseItem)
+        fun downloadFile(filesListResponseItem: FilesListResponseItem,position:Int)
     }
 }
