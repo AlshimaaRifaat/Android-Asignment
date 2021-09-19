@@ -8,7 +8,7 @@ import com.example.androidtask.network.di.DaggerAPIComponent
 import com.example.androidtask.network.repository.APIURL
 
 
-class MyRetroApplication : Application() {
+class MoviesApplication : Application() {
 
 
     companion object {

@@ -5,5 +5,5 @@ data class FilesListResponseItem(
     val name: String,
     val type: String,
     val url: String,
-    var isChecked:Boolean=false
+    var isDownloadCompleted:Boolean=false
 )

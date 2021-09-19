@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.androidtask.R
 
 
-class NetworkActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.network_layout)
+        setContentView(R.layout.activity_main)
         replaceFragment()
 
 
@@ -21,7 +21,7 @@ class NetworkActivity: AppCompatActivity() {
     fun replaceFragment(){
        supportFragmentManager
            .beginTransaction()
-           .replace(R.id.container_retro_room,RetroFragment())
+           .replace(R.id.container,FilesListFragment())
            .commit()
     }
 }

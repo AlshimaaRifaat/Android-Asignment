@@ -12,5 +12,5 @@ import retrofit2.http.GET
 interface APIService {
 
     @GET("/v1/52931552-80ec-46a3-ba82-bc0bd0d2eac7")
-    fun makeRequest(): Single<FilesListResponse>
+    fun getFilesList(): Single<FilesListResponse>
 }

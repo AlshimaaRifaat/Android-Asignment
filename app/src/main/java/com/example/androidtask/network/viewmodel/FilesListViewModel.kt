@@ -4,19 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.androidtask.network.model.FilesListResponse
-import com.example.androidtask.network.repository.RetrofitRepository
+import com.example.androidtask.network.repository.FilesListRepository
 
-class RetroViewModel(retrofitRepository: RetrofitRepository): ViewModel() {
+class FilesListViewModel(retrofitRepository: FilesListRepository): ViewModel() {
 
-    lateinit var retrofitRepository:RetrofitRepository
+    lateinit var retrofitRepository:FilesListRepository
     var postInfoLiveData: LiveData<FilesListResponse> = MutableLiveData()
 
     init {
         this.retrofitRepository  = retrofitRepository
-        fetchPostInfoFromRepository()
+        fetchFilesInfoFromRepository()
         }
 
-    fun fetchPostInfoFromRepository(){
+    fun fetchFilesInfoFromRepository(){
         postInfoLiveData =  retrofitRepository.fetchPostInfoList()
     }
 

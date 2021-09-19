@@ -2,28 +2,28 @@ package com.example.androidtask.network.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.androidtask.MyRetroApplication
+import com.example.androidtask.MoviesApplication
 import com.example.androidtask.network.di.APIComponent
 import com.example.androidtask.network.di.APIModule
 import com.example.androidtask.network.di.DaggerAPIComponent
 import com.example.androidtask.network.repository.APIURL
-import com.example.androidtask.network.repository.RetrofitRepository
+import com.example.androidtask.network.repository.FilesListRepository
 
 
 import javax.inject.Inject
 
 
-class RetroViewModelFactory : ViewModelProvider.Factory {
+class FilesListViewModelFactory : ViewModelProvider.Factory {
     lateinit var apiComponent: APIComponent
     @Inject
-    lateinit var retrofitRepository: RetrofitRepository
+    lateinit var retrofitRepository: FilesListRepository
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
      //   initDaggerComponent()
-       var apiComponent :APIComponent =  MyRetroApplication.apiComponent
+       var apiComponent :APIComponent =  MoviesApplication.apiComponent
         apiComponent.inject(this)
-        if (modelClass.isAssignableFrom(RetroViewModel::class.java)) {
-            return RetroViewModel(retrofitRepository) as T
+        if (modelClass.isAssignableFrom(FilesListViewModel::class.java)) {
+            return FilesListViewModel(retrofitRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

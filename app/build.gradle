@@ -15,7 +15,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -70,6 +70,7 @@ dependencies {
     implementation 'org.mockito:mockito-core:3.0.0'
     implementation 'org.mockito:mockito-inline:3.0.0'
     testImplementation 'android.arch.core:core-testing:1.1.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 
     //rxjava
 
@@ -78,5 +79,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
 
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+
+
 
 }
